@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse
-from domain import print_message
+from .domain import print_message
 
 app = FastAPI()
 
