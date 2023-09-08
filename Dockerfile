@@ -1,39 +1,5 @@
 
-# FROM python:3.10
-
-# -------------- ONLY FOR DATAMART QUERY --------------------------------------------------------------------
-# If not using datamart query, delete bellow code:
-
-FROM deepnote/python:3.9
-# UPDATE APT-GET
-RUN apt-get update
-
-# PYODBC DEPENDENCES
-RUN apt-get install -y tdsodbc unixodbc-dev
-RUN apt install unixodbc -y
-RUN apt-get clean -y
-
-# UPGRADE pip3
-RUN pip3 install --upgrade pip
-
-# DEPENDECES FOR DOWNLOAD ODBC DRIVER
-RUN apt-get install apt-transport-https
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
-RUN apt-get update
-
-# INSTALL ODBC DRIVER
-RUN ACCEPT_EULA=Y apt-get install msodbcsql18 --assume-yes
-
-# CONFIGURE ENV FOR /bin/bash TO USE MSODBCSQL17
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-
-RUN pip install pyodbc
-RUN pip install sqlalchemy
-RUN pip install Office365-REST-Python-Client
-
-# ---------------------- END OF DATAMART QUERY -------------------------------------------------------------
+FROM python:3.10
 
 WORKDIR /code
 
@@ -42,10 +8,10 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # RUN pip install --upgrade -r /code/requirements.txt
 
-COPY ./app /code/app
+COPY . /code/app
 
 # Lưu ý: Port được cấu hình trong lệnh khởi động sau (3500) phải giống Port được cấu hình trong Ingress của Azure Container App
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3500"]
+CMD ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "3500"]
 
-# CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "-b", "0.0.0.0:3500"]
+# CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "app.api:app", "-b", "0.0.0.0:3500"]

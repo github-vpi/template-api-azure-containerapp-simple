@@ -1,34 +1,29 @@
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi import FastAPI, Query
+from fastapi.responses import HTMLResponse
+from domain import print_message
 
 app = FastAPI()
 
-# Include các endpoints từ Service Predict vào app
-from .service.sample_predict.predict_routes import predict_router
-app.include_router(predict_router)
 
-# Include các endpoints từ Service Query DB vào app
-from .service.sample_query_db.querydb_routes import querydb_router
-app.include_router(querydb_router)
+@app.get('/hello')
+async def hello():
+    return {"message": "Hello World 1"}
 
-# Thiết lập các giá trị cho CORS
-origins = ["*"]
-# Ví dụ:
-# origins = ["https://abc.com",
-#           "113.112.0.1"]
 
-# Áp dụng middleware CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Test to check if server is running or not
-@app.get("/")
-def read_root():
-    return {"Hello, your project is running - test action all, expose to outside"}
+@app.get('/print-message')
+async def get_message(name: str = Query(None, alias="name")):
+    
+    message = print_message(name)
+    
+    content = f"""<html>
+                    <head>
+                        <title>Deploy simple API to Azure Webapp</title>
+                    </head>
+                    <body>
+                        <h1>Deploy simple API to Azure Webapp</h1>
+                        <p>Message: {message}</p>
+                    </body>
+                  </html>"""
+                  
+    return HTMLResponse(content=content, status_code=200)
