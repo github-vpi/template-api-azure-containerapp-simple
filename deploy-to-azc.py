@@ -28,7 +28,7 @@ container_app_environment_name = 'azc-environment'
 # với quyền "Owner" hoặc "Contributor" trong mục "Access control (IAM)"
 # Security group: nhuduc_security_group_to_access_sharepoint
 client_id = 'c3bf460c-3f80-48cb-ba7c-9597aa013552'
-client_secret = 'MLV8Q~lxSThzcjq3rkSCvSZjvCBFy6Gjdzot8aIM' 
+client_secret = 'F3o8Q~VJi5vIbNTzRavvhkvmsD_Jl~kdm7qgWbm3'
 
 import subprocess
 import re
