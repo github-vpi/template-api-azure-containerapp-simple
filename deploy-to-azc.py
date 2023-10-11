@@ -13,8 +13,8 @@
 
 # String variables: Replace with your own
 tenant_id = 'c5ec5abe-76c1-46cb-b3fe-c3b0071ffdb3'
-# Subscription: oilgasai-sub-01
-subscription_id = '57fa5116-def1-4991-a046-7b374762f775'
+# Subscription: oilgasai-sub-02
+subscription_id = '38fafd17-d863-4fde-b7e4-d207c8bb4fec'
 resource_group_name = 'azc-container-app-rs-group'
 container_app_environment_name = 'azc-environment'
 
